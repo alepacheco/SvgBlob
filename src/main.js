@@ -1,9 +1,11 @@
-import { randomInRange, extend, extendSingle, uuidv4 } from './utils';
+import { randomInRange, extend, uuidv4 } from './utils';
 import { Noise } from './noise'
+
+const _svgNS = 'http://www.w3.org/2000/svg';
 
 export class SvgBlob {
   constructor(elements, options) {
-    this.noise = new Noise({})
+    this.noise = new Noise()
     this.init(elements, options)
   }
 
@@ -20,7 +22,7 @@ export class SvgBlob {
 
   init(elements, options) {
     this.options = extend({}, this.defaults, options)
-    var nodes = is.str(elements) ? document.querySelectorAll(elements) : elements
+    let nodes = (typeof elements === 'string') ? document.querySelectorAll(elements) : elements
     this.elements = []
     nodes.forEach((node, index) => {
       this.elements.push(this.initElement(node))
@@ -33,22 +35,22 @@ export class SvgBlob {
   }
 
   initElement(node) {
-    var width = node.offsetWidth
-    var height = node.offsetHeight
-    var points = this.getPoints(width, height, this.options)
-    var svg = document.createElementNS(_svgNS, 'svg')
+    let width = node.offsetWidth
+    let height = node.offsetHeight
+    let points = this.getPoints(width, height, this.options)
+    let svg = document.createElementNS(_svgNS, 'svg')
     svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height + '')
-    var path = document.createElementNS(_svgNS, 'path')
+    let path = document.createElementNS(_svgNS, 'path')
     path.setAttribute('class', 'svg-blob__path')
     if (this.options.debug) {
       svg.setAttribute('class', 'svg-blob__svg --debug')
       svg.appendChild(path)
     } else {
       svg.setAttribute('class', 'svg-blob__svg')
-      var defs = document.createElementNS(_svgNS, 'defs')
+      let defs = document.createElementNS(_svgNS, 'defs')
       svg.appendChild(defs)
-      var clipPath = document.createElementNS(_svgNS, 'clipPath')
-      var clipPathId = 'svg-blob__clip--' + uuidv4() + ''
+      let clipPath = document.createElementNS(_svgNS, 'clipPath')
+      let clipPathId = 'svg-blob__clip--' + uuidv4() + ''
       clipPath.setAttribute('id', clipPathId)
       defs.appendChild(clipPath)
       node.style.clipPath = 'url(#' + clipPathId + ')'
@@ -70,14 +72,14 @@ export class SvgBlob {
   }
 
   getPoints(width, height) {
-    var clipPadding = this.options.clipPadding
-    var sides = [{ name: 'top', points: this.generatePoints(width) }, { name: 'right', points: this.generatePoints(height) }, { name: 'bottom', points: this.generatePoints(width) }, { name: 'left', points: this.generatePoints(height) }]
-    var points = []
+    let clipPadding = this.options.clipPadding
+    let sides = [{ name: 'top', points: this.generatePoints(width) }, { name: 'right', points: this.generatePoints(height) }, { name: 'bottom', points: this.generatePoints(width) }, { name: 'left', points: this.generatePoints(height) }]
+    let points = []
     sides.forEach(function (side) {
-      var horizontal = side.name === 'top' || side.name === 'bottom'
-      var topOrRight = side.name === 'top' || side.name === 'right'
-      var topOrLeft = side.name === 'top' || side.name === 'left'
-      var value, valueRange, randRange
+      let horizontal = side.name === 'top' || side.name === 'bottom'
+      let topOrRight = side.name === 'top' || side.name === 'right'
+      let topOrLeft = side.name === 'top' || side.name === 'left'
+      let value, valueRange, randRange
       side.points.forEach(function (point) {
         value = topOrRight ? point : (horizontal ? width : height) - point
         valueRange = topOrRight ? [value - clipPadding, value] : [value, value + clipPadding]
@@ -96,16 +98,16 @@ export class SvgBlob {
   }
 
   generatePoints(len) {
-    var minPointsDistance = this.options.minPointsDistance
-    var points = []
-    var lines = [{ x: 0, w: len }]
+    let minPointsDistance = this.options.minPointsDistance
+    let points = []
+    let lines = [{ x: 0, w: len }]
     function splitLine() {
       if (lines.length) {
-        var line = lines.shift()
+        let line = lines.shift()
         if (line.w > minPointsDistance * 2) {
-          var line1Size = randomInRange(minPointsDistance, line.w - minPointsDistance)
-          var line1 = extend({}, line, { w: line1Size })
-          var line2 = extend({}, line, { x: line.x + line1Size, w: line.w - line1Size })
+          let line1Size = randomInRange(minPointsDistance, line.w - minPointsDistance)
+          let line1 = extend({}, line, { w: line1Size })
+          let line2 = extend({}, line, { x: line.x + line1Size, w: line.w - line1Size })
           lines.push(line1, line2)
         } else {
           points.push(line)
@@ -122,16 +124,16 @@ export class SvgBlob {
   }
 
   updatePath(index, timeDiff) {
-    var speedFactor = this.options.speedFactor
-    var element = this.elements[index]
-    var time = element.time + timeDiff
+    let speedFactor = this.options.speedFactor
+    let element = this.elements[index]
+    let time = element.time + timeDiff
     element.points.forEach((point, pointIndex) => {
-      var noiseX = (this.noise.simplex2(pointIndex * 2, time * 0.0005 * speedFactor) + 1) / 2
-      var noiseY = (this.noise.simplex2(pointIndex * 2 + 1, time * 0.0005 * speedFactor) + 1) / 2
-      var xMin = point.xRange[0]
-      var xMax = point.xRange[1]
-      var yMin = point.yRange[0]
-      var yMax = point.yRange[1]
+      let noiseX = (this.noise.simplex2(pointIndex * 2, time * 0.0005 * speedFactor) + 1) / 2
+      let noiseY = (this.noise.simplex2(pointIndex * 2 + 1, time * 0.0005 * speedFactor) + 1) / 2
+      let xMin = point.xRange[0]
+      let xMax = point.xRange[1]
+      let yMin = point.yRange[0]
+      let yMax = point.yRange[1]
       point.x = noiseX * (xMax - xMin) + xMin
       point.y = noiseY * (yMax - yMin) + yMin
     })
@@ -139,8 +141,8 @@ export class SvgBlob {
   }
 
   buildPath(points) {
-    var d = 'M ' + points[0].x + ' ' + points[0].y + ''
-    var i, p0, p1, len = points.length
+    let d = 'M ' + points[0].x + ' ' + points[0].y + ''
+    let i, p0, p1, len = points.length
     for (i = 0; i <= len; i++) {
       p0 = points[i >= len ? i - len : i]
       p1 = points[i + 1 >= len ? i + 1 - len : i + 1]
@@ -150,11 +152,11 @@ export class SvgBlob {
   }
 
   resumeAnimation(index) {
-    var raf = this.elements[index].raf
+    let raf = this.elements[index].raf
     if (raf.paused) {
-      var time0 = performance.now()
-      var time1, timeDiff
-      var self = this
+      let time0 = performance.now()
+      let time1, timeDiff
+      let self = this
       function render() {
         time1 = performance.now()
         timeDiff = time1 - time0
@@ -169,42 +171,15 @@ export class SvgBlob {
   }
 
   pauseAnimation(index) {
-    var element = this.elements[index]
-    var raf = element.raf
+    let element = this.elements[index]
+    let raf = element.raf
     if (!raf.paused) {
       cancelAnimationFrame(raf.id)
       element.time += raf.timeDiff
       raf.paused = true
     }
   }
-
-  resizeElement(index) {
-    var element = this.elements[index]
-    this.pauseAnimation(index)
-    var width = element.node.offsetWidth
-    var height = element.node.offsetHeight
-    element.points = this.getPoints(width, height)
-    element.svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height + '')
-    element.time = randomInRange(0, 10000)
-    element.raf = { id: 0, timeDiff: 0 }
-    this.updatePath(index, 0)
-  }
 }
-var _svgNS = 'http://www.w3.org/2000/svg';
 
-var is = {
-  arr: function arr(a) {
-    return Array.isArray(a)
-  },
-  str: function str(a) {
-    return typeof a === 'string'
-  },
-  fnc: function fnc(a) {
-    return typeof a === 'function'
-  },
-  und: function und(a) {
-    return typeof a === 'undefined'
-  }
-}
 
 window.SvgBlob = SvgBlob;
