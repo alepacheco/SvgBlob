@@ -180,6 +180,3 @@ export class SvgBlob {
     }
   }
 }
-
-
-window.SvgBlob = SvgBlob;
