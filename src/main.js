@@ -1,9 +1,9 @@
-import {randomInRange, extend, extendSingle, uuidv4} from './utils';
+import { randomInRange, extend, extendSingle, uuidv4 } from './utils';
 
 export class SvgBlob {
   constructor(elements, options) {
     this.init(elements, options)
-  }
+  }s
 
   get defaults() {
     return {
