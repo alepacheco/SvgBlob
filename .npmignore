@@ -1,0 +1,7 @@
+/src/
+/test/
+demo.html
+README.md
+webpack.config.js
+babel.config.js
+jest.config.js

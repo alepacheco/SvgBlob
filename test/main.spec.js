@@ -1,7 +1,8 @@
-const { SvgBlob } = require('../src/main');
+import SvgBlob from '../src/SvgBlob';
 
 describe('SvgBlob', () => {
     it('creates correctly', () => {
+      console.log(SvgBlob)
         document.body.innerHTML = '<div> Some text </div>';
 
         const blob = new SvgBlob('div');

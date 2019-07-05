@@ -1,11 +1,14 @@
 {
   "name": "svg-blob",
-  "version": "1.1.0",
+  "version": "1.1.7",
   "description": "Make elements be souronded by wobbly svg blobs",
   "main": "build/app.bundle.js",
   "scripts": {
     "test": "jest",
-    "webpack": "webpack"
+    "webpack": "webpack",
+    "prepare": "webpack --mode=production",
+    "build": "webpack --mode=production"
+
   },
   "repository": {
     "type": "git",
