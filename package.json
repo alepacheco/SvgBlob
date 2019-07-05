@@ -1,14 +1,21 @@
 {
-  "name": "svgblob",
-  "version": "1.0.0",
-  "description": "",
-  "main": "svg-blob.js",
+  "name": "svg-blob",
+  "version": "1.0.1",
+  "description": "Make elements be souronded by wobbly svg blobs",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
-    "babel": "babel --presets es2015 src/ -o build/main.bundle.js",
     "webpack": "webpack"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alepacheco/SvgBlob.git"
+  },
+  "keywords": [
+    "graphics",
+    "svg"
+  ],
+  "author": "Alejandro Pacheco",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.5.0",
