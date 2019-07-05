@@ -3,7 +3,7 @@ import { Noise } from './noise'
 
 const _svgNS = 'http://www.w3.org/2000/svg';
 
-class SvgBlob {
+export class SvgBlob {
   constructor(elements, options) {
     this.noise = new Noise()
     this.init(elements, options)
@@ -180,5 +180,3 @@ class SvgBlob {
     }
   }
 }
-
-export default SvgBlob;

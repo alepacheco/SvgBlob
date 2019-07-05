@@ -1,5 +1,6 @@
-const SvgBlob = require('./SvgBlob');
+import SvgBlob from './SvgBlob';
 
-module.exports = {
-    SvgBlob
+export default {
+    SvgBlob,
+    test: 'aaaaaaa'
 };

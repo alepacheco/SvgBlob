@@ -4,7 +4,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'app.bundle.js'
+        filename: 'app.bundle.js',
+        libraryTarget: 'commonjs-module'
     },
     module: {
         rules: [
