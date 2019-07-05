@@ -1,6 +1,2 @@
-import SvgBlob from './SvgBlob';
-
-export default {
-    SvgBlob,
-    test: 'aaaaaaa'
-};
+import { SvgBlob } from './SvgBlob';
+export default SvgBlob
