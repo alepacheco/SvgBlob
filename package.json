@@ -4,7 +4,7 @@
   "description": "",
   "main": "svg-blob.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "babel": "babel --presets es2015 src/ -o build/main.bundle.js",
     "webpack": "webpack"
   },
@@ -15,6 +15,7 @@
     "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.5.0",
     "babel-loader": "^8.0.6",
+    "jest": "^24.8.0",
     "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5"
   }

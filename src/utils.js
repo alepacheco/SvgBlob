@@ -6,7 +6,7 @@ export function uuidv4() {
 }
 export function extendSingle(target, source) {
     for (var key in source) {
-        target[key] = is.arr(source[key]) ? source[key].slice(0) : source[key]
+        target[key] = Array.isArray(source[key]) ? source[key].slice(0) : source[key]
     }
     return target
 }

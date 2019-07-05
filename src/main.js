@@ -1,9 +1,11 @@
 import { randomInRange, extend, extendSingle, uuidv4 } from './utils';
+import { Noise } from './noise'
 
 export class SvgBlob {
   constructor(elements, options) {
+    this.noise = new Noise({})
     this.init(elements, options)
-  }s
+  }
 
   get defaults() {
     return {
@@ -12,8 +14,6 @@ export class SvgBlob {
       speedFactor: 1,
       animateOnHover: true,
       round: true,
-      resize: true,
-      resizeTimeout: 100,
       debug: false
     };
   }
@@ -22,23 +22,14 @@ export class SvgBlob {
     this.options = extend({}, this.defaults, options)
     var nodes = is.str(elements) ? document.querySelectorAll(elements) : elements
     this.elements = []
-    for (var index = 0; index < nodes.length; index++) {
-      var node = nodes[index]
+    nodes.forEach((node, index) => {
       this.elements.push(this.initElement(node))
       this.updatePath(index, 0)
       if (this.options.animateOnHover) {
         node.addEventListener('mouseenter', this.resumeAnimation.bind(this, index))
         node.addEventListener('mouseleave', this.pauseAnimation.bind(this, index))
       }
-      if (this.options.resize) {
-        function resize(index) {
-          var element = this.elements[index]
-          if (element.resizeTimer) { clearTimeout(element.resizeTimer) }
-          element.resizeTimer = setTimeout(this.resizeElement.bind(this, index), this.options.resizeTimeout)
-        }
-        resizeDetector.addListener(node, resize.bind(this, index))
-      }
-    }
+    });
   }
 
   initElement(node) {
@@ -134,9 +125,9 @@ export class SvgBlob {
     var speedFactor = this.options.speedFactor
     var element = this.elements[index]
     var time = element.time + timeDiff
-    element.points.forEach(function (point, pointIndex) {
-      var noiseX = (noise.simplex2(pointIndex * 2, time * 0.0005 * speedFactor) + 1) / 2
-      var noiseY = (noise.simplex2(pointIndex * 2 + 1, time * 0.0005 * speedFactor) + 1) / 2
+    element.points.forEach((point, pointIndex) => {
+      var noiseX = (this.noise.simplex2(pointIndex * 2, time * 0.0005 * speedFactor) + 1) / 2
+      var noiseY = (this.noise.simplex2(pointIndex * 2 + 1, time * 0.0005 * speedFactor) + 1) / 2
       var xMin = point.xRange[0]
       var xMax = point.xRange[1]
       var yMin = point.yRange[0]
@@ -216,3 +207,4 @@ var is = {
   }
 }
 
+window.SvgBlob = SvgBlob;
